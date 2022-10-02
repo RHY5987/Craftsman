@@ -1,0 +1,13 @@
+@ShutdownOnFailedCommand 0 // stops it from exiting if an error happens
+@NoPromptForPassword 1 // won't ask you for the password
+login [username] [password]
+force_install_dir "C:\somewhere"
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+workshop_download_item # #
+quit
