@@ -50,10 +50,10 @@ GM_addStyle(`
 `);
 
 // Violentmonkey storage for queue items
-var queue = null;
+var queue = [];
 function refreshQueue() {
     queue = GM_getValue("queue", "");
-    if (queue == "" || queue == null) {
+    if (queue == "") {
         queue = [];
     };
 };
@@ -129,8 +129,6 @@ var inputElement = document.querySelector('a[data-appid]');
 var appid = inputElement.getAttribute("data-appid");
 
 button.removeAttribute("onclick");
-
-// button.setAttribute('href', 'craftsman://' + appid + '%20' + id);
 button.setAttribute("id", "DownloadItemBtn");
 
 var buttonText = button.querySelector("#SubscribeItemOptionAdd");
@@ -238,6 +236,7 @@ function updateQueueList() {
         <br clear="all">
     </div>`;
     });
+    queuePanelDownloadButton.setAttribute("onclick", `window.location.href = "craftsman://download?queue=${encodeURI(JSON.stringify(queue))})}";window.clearQueue();`);
     queuePanel.innerHTML = `${queuePanelDownloadButton.outerHTML} ${queuePanelClearButton.outerHTML}<div class="rightSectionTopTitle condensed">Craftsman Queue</div><div class="rightSectionMinorText">${queue.length} ${label} in queue</div><div class="requiredDLCContainer">${queueList}</div>`;
     sidebar.insertBefore(queuePanel, sidebar.firstChild);
 }
@@ -260,10 +259,11 @@ if (document.getElementById("account_pulldown")) {
     subButton.parentNode.appendChild(button);
 } else {
     // if not logged in, don't append and suggest to sign in
+    var loginLink = Array.from(document.getElementsByClassName("global_action_link")).find((link) => link.innerHTML == "login").href;
     subButton.parentNode.parentNode
     .getElementsByTagName("h1")[0]
     .getElementsByTagName("span")[0].innerHTML =
-    "Subscribe to download, or login to queue";
+    `Subscribe to download, or <a href="${loginLink}">login to queue</a>`;
 }
 // Appends the queue notification to the subscribe notification
 subNotif.parentNode.insertBefore(queueNotif, subNotif.nextSibling);
